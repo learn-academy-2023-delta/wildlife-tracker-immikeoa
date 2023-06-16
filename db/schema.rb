@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_222306) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_16_174523) do
+  create_table "animal_sightings", force: :cascade do |t|
+    t.integer "latitude"
+    t.integer "longitude"
+    t.string "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "animal_id"
+  end
+
   create_table "animals", force: :cascade do |t|
     t.string "common_name"
     t.string "scientific_binomial"

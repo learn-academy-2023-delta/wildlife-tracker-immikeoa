@@ -23,7 +23,6 @@ The Forest Service is considering a proposal to place in conservancy a forest of
 
 #### Acceptance Criteria
 
-#####  Creates the index method and (Read) http request
 ✅Create a resource for animal with the following information: common name and scientific_binomial
 $ rails generate resource Animal common_name:string scientific_binomial:string
 $ rails db:migrate
@@ -47,7 +46,7 @@ def show
 end
 
 get 'index/:id' => 'animals#show', as: 'show'
-#####  Creates the create method, animal_params method, and (create) http request
+
 ✅Can create a new animal in the database
 def create
         animal = Animal.create(animal_params)
@@ -96,15 +95,26 @@ patch 'index/update/:id' => 'animals#update'
 ### Story 2: In order to track wildlife sightings, as a user of the API, I need to manage animal sightings.
 
 Branch: sighting-crud-actions
+$ git checkout -b sighting-crud-actions
 
 Acceptance Criteria
 
-Create a resource for animal sightings with the following information: latitude, longitude, date
+✅Create a resource for animal sightings with the following information: latitude, longitude, date
+$ rails generate resource Animal_sightings latitude:integer longitude:integer date:string
 Hint: An animal has_many sightings (rails g resource Sighting animal_id:integer ...)
 Hint: Date is written in Active Record as yyyy-mm-dd (“2022-07-28")
-Can create a new animal sighting in the database
-Can update an existing animal sighting in the database
-Can remove an animal sighting in the database
+
+belongs_to
+has_many
+$ rails db:migrate
+$ rails routes
+$ rails c
+
+
+✅Can create a new animal sighting in the database
+✅Can update an existing animal sighting in the database
+✅Can remove an animal sighting in the database
+
 Story 3: In order to see the wildlife sightings, as a user of the API, I need to run reports on animal sightings.
 
 Branch: animal-sightings-reports
@@ -145,4 +155,4 @@ Branch: submit-animal-with-sightings
 Acceptance Criteria
 
 Can create new animal along with sighting data in a single API request
-Hint: Look into accepts_nested_attributes_for
+Hint: Look into accepts_nested_attributes_forg
