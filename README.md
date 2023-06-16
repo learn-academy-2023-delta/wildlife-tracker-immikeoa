@@ -1,7 +1,7 @@
 # README
 
 
-## Starting the app
+#### Starting the app
 cd to your Desktop
 $ rails new wildlife-api-immikeoa -d postgresql -T
 $ cd wildlife-api-immikeoa
@@ -23,22 +23,17 @@ The Forest Service is considering a proposal to place in conservancy a forest of
 
 #### Acceptance Criteria
 
+#####  Creates the index method and (Read) http request
 ✅Create a resource for animal with the following information: common name and scientific_binomial
 $ rails generate resource Animal common_name:string scientific_binomial:string
 $ rails db:migrate
 $ rails routes
-
-✅Can see the data response of all the animals
 $ rails c
-
-✅Can create a new animal in the database
-
-##### Creates the index method and (Read) http request
 
 Animal.create(common_name: 'Dog', scientific_binomial:'Canis lupus familiaris')
 Animal.create(common_name: 'Cat', scientific_binomial:'Felis catus')
 
-
+✅Can see the data response of all the animals
 def index
         animals =Animal.all
         render json: animals
@@ -46,17 +41,57 @@ end
 
 get 'index' => 'animals#index', as: 'index'
 
-##### creates the show method (Read) http request
-
 def show
         animal = Animal.find(params[:id])
         render json: animal
 end
 
 get 'index/:id' => 'animals#show', as: 'show'
+#####  Creates the create method, animal_params method, and (create) http request
+✅Can create a new animal in the database
+def create
+        animal = Animal.create(animal_params)
+        if animal.valid?
+          render json: animal
+        else
+          render json: animal.errors
+        end
+      end
+    
+      private
+      def animal_params
+        params.require(:animal).permit(:common_name, :scientific_binomial)
+end
 
-Can update an existing animal in the database
-Can remove an animal entry in the database
+post 'index/add' => 'animals#create'
+
+✅Can update an existing animal in the database
+
+def update
+        animal = Animal.find(params[:id])
+        animal.update(animal_params)
+        if animal.valid?
+          render json: animal
+        else
+          render json: animal.errors
+        end
+end
+
+patch 'index/update/:id' => 'animals#update'
+
+✅Can remove an animal entry in the database
+ 
+ def destroy
+        animal = Animal.find(params[:id])
+        if animal.destroy
+          render json: animal
+        else
+          render json: animal.errors
+        end
+ end
+
+ delete 'index/destroy/:id' => 'animals#destroy'
+
 
 ### Story 2: In order to track wildlife sightings, as a user of the API, I need to manage animal sightings.
 
