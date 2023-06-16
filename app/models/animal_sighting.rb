@@ -1,0 +1,2 @@
+class AnimalSighting < ApplicationRecord
+end
